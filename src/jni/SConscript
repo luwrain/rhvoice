@@ -1,0 +1,13 @@
+import os.path
+
+Import("env","libcore")
+local_env=env.Clone()
+local_env["CPPPATH"].append("/usr/lib/jvm/java-8-openjdk-amd64/include")
+local_env["CPPPATH"].append("/usr/lib/jvm/java-8-openjdk-amd64/include/linux")
+local_env["libversion"]="1.0.0"
+local_env["liblevel"]=2
+local_env.Prepend(LIBS=libcore)
+src=["native.cpp"]
+native=local_env.BuildLibrary("jni",src)
+if env["PLATFORM"]!="win32":
+    local_env.InstallLibrary(native)
