@@ -75,8 +75,8 @@ namespace pitch
   private:
     struct point_t
     {
-      const std::size_t index;
-      const double value;
+      /*const*/ std::size_t index;
+      /*const*/ double value;
       std::size_t prev_index;
       std::size_t next_index;
       double distance;
