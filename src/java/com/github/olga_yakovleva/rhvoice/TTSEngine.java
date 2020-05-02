@@ -18,6 +18,10 @@ package com.github.olga_yakovleva.rhvoice;
 import java.util.Arrays;
 import java.util.List;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.*;
+
 public final class TTSEngine
 {
     private long data;
@@ -29,14 +33,48 @@ public final class TTSEngine
     private native void doSpeak(String text,SynthesisParameters params,TTSClient client) throws RHVoiceException;
     private native boolean doConfigure(String key,String value);
 
-    static
+    static void loadJniLib(ClassLoader classLoader, String libName)
     {
-        System.loadLibrary("RHVoice_jni");
+	    final String arch = System.getProperty("sun.arch.data.model");
+    final String os = System.getProperty("os.name");
+	try {
+	    final String resName = "com/github/olga_yakovleva/rhvoice/jni/" + os + "/" + arch + "/" + libName;
+	    final URL url = classLoader.getResource(resName);
+	    if (url == null)
+		throw new RuntimeException("No resource " + resName);
+	    final File tmpFile = File.createTempFile(".rhvoice.jni.", "." + libName + ".tmp");
+	    final InputStream is = url.openStream();
+	    try {
+			    		java.nio.file.Files.copy(is, tmpFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+	    }
+	    finally {
+		is.close();
+	    }
+	    System.load(tmpFile.getAbsolutePath());
+	}
+	catch (Throwable e)
+	{
+	    throw new RuntimeException("Unable to load " + libName, e);
+	}
+    }
+
+    static private boolean jniLoaded = false;
+    static void loadJni(ClassLoader classLoader)
+    {
+	if (jniLoaded)
+	    return;
+	loadJniLib(classLoader, "libRHVoice_core.so");
+	loadJniLib(classLoader, "libRHVoice_jni.so");
+	loadJniLib(classLoader, "libRHVoice.so");
         onClassInit();
+	jniLoaded = true;
     }
 
     public TTSEngine(String data_path,String config_path,String[] resource_paths,Logger logger) throws RHVoiceException
     {
+	if (logger == null)
+	    throw new NullPointerException("logger can't be null");
+	loadJni(getClass().getClassLoader());
         onInit(data_path,config_path,resource_paths,logger);
     }
 

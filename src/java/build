@@ -2,13 +2,13 @@
 
 VERSION=1.2.2
 
-rm -rf org rhvoice-*.jar
+rm -rf com/github/olga_yakovleva/rhvoice/jni
 
 javac $(find com -iname '*.java')
-mkdir -p org/luwrain/jni/Linux/64
-find ../../build -iname '*.so' -exec cp '{}' org/luwrain/jni/Linux/64 \;
-pushd org/luwrain/jni/Linux/64 > /dev/null
+mkdir -p com/github/olga_yakovleva/rhvoice/jni/Linux/64
+find ../../build -iname '*.so' -exec cp '{}' com/github/olga_yakovleva/rhvoice/jni/Linux/64 \;
+pushd com/github/olga_yakovleva/rhvoice/jni/Linux/64
 rm -f libRHVoice_audio.so
 mv libjni.so libRHVoice_jni.so
 popd > /dev/null
-jar cvf rhvoice-$VERSION.jar $(find com -iname '*.class') $(find org -type f)
+jar cvf rhvoice-$VERSION.jar $(find com -iname '*.class') $(find com -iname '*.so')
