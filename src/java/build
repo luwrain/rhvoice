@@ -7,7 +7,7 @@ rm -rf com/github/olga_yakovleva/rhvoice/jni
 javac $(find com -iname '*.java')
 mkdir -p com/github/olga_yakovleva/rhvoice/jni/Linux/64
 find ../../build -iname '*.so' -exec cp '{}' com/github/olga_yakovleva/rhvoice/jni/Linux/64 \;
-pushd com/github/olga_yakovleva/rhvoice/jni/Linux/64
+pushd com/github/olga_yakovleva/rhvoice/jni/Linux/64 > /dev/null
 rm -f libRHVoice_audio.so
 mv libjni.so libRHVoice_jni.so
 popd > /dev/null
