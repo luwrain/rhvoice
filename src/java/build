@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+VERSION=1.2.2
+
+rm -rf org rhvoice-*.jar
+
+javac $(find com -iname '*.java')
+mkdir -p org/luwrain/jni/Linux/64
+find ../../build -iname '*.so' -exec cp '{}' org/luwrain/jni/Linux/64 \;
+pushd org/luwrain/jni/Linux/64 > /dev/null
+rm -f libRHVoice_audio.so
+mv libjni.so libRHVoice_jni.so
+popd > /dev/null
+jar cvf rhvoice-$VERSION.jar $(find com -iname '*.class') $(find org -type f)
