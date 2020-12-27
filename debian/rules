@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+%:
+	dh $@  --with autotools-dev
+
+build:
+	scons prefix=`realpath debian/rhvoice`/usr
+
+override_dh_auto_install:
+	scons install
+	mv debian/rhvoice/usr/etc debian/rhvoice/etc
+	mkdir -p debian/rhvoice/usr/lib/speech-dispatcher-modules
+	mv debian/rhvoice/usr/bin/sd_rhvoice debian/rhvoice/usr/lib/speech-dispatcher-modules

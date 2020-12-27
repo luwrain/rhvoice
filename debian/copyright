@@ -1,0 +1,39 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: rhvoice
+Source: https://github.com/Olga-Yakovleva/RHVoice
+
+Files: *
+Copyright: 2010-2019 Olga Yakovleva <yakovleva.o.v@gmail.com>
+License: GPL-3+
+ The main library is distributed under LGPL v2.1 or later. But it
+ relies on MAGE for better responsiveness. MAGE is distributed under
+ GPL v3 or later, so the combination is under GPL v3 or later. If you
+ want to use the library in your program under GPL v2 or LGPL, compile the
+ library without MAGE.
+ 
+ The following restrictions apply to some of the voices:
+ 
+ 1. The Tatar voice can only be used non-commercially.
+ 2. The Georgian voice can only be used by individuals for personal use.
+ 
+ See the documents in the voices subdirectory for more details.
+msp@blard:/sync/git/github/marigostra/rhvoice/licenses$ 
+
+Files: debian/*
+Copyright: 2019 Michael Pozhidaev <msp@luwrain.org>
+License: GPL-2+
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
