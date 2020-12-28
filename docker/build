@@ -1,0 +1,10 @@
+#!/bin/bash -e
+
+sudo docker rmi rhvoice || true
+rm -rf src
+
+mkdir src
+pushd .. > /dev/null
+cp -r $(ls | grep -v docker | grep -v git) docker/src
+popd > /dev/null
+sudo docker build -t rhvoice .

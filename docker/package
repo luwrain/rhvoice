@@ -1,0 +1,10 @@
+#!/bin/bash -evx
+
+VER=1.2.3
+
+mkdir rhvoice
+cd rhvoice
+cp -r /src $VER
+cd $VER
+ls
+dpkg-buildpackage -us -uc
