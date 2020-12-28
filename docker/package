@@ -1,4 +1,4 @@
-#!/bin/bash -evx
+#!/bin/bash -ev
 
 VER=1.2.3
 
@@ -8,3 +8,5 @@ cp -r /src $VER
 cd $VER
 ls
 dpkg-buildpackage -us -uc
+cd ../..
+tar -c rhvoice/ > rhvoice.tar

@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-sudo docker rmi rhvoice || true
+sudo docker rmi -f rhvoice || true
 rm -rf src
 
 mkdir src
@@ -8,3 +8,5 @@ pushd .. > /dev/null
 cp -r $(ls | grep -v docker | grep -v git) docker/src
 popd > /dev/null
 sudo docker build -t rhvoice .
+sudo docker run rhvoice > /tmp/rhvoice.tar
+sudo docker rmi -f rhvoice
