@@ -1,6 +1,10 @@
 #!/bin/bash -ev
 
 VER=1.2.3
+KEY_NAME=dpkg1@luwrain.org
+
+gpg --import dpkg1.*
+rm -f dpkg1.*
 
 mkdir rhvoice
 cd rhvoice
@@ -12,5 +16,8 @@ rm -rf $VER
 mkdir -p dists/rhvoice/main/binary-amd64
 mv *.deb dists/rhvoice/main/binary-amd64
 dpkg-scanpackages dists/rhvoice/main/binary-amd64 /dev/null > dists/rhvoice/main/binary-amd64/Packages
-cd ..
+cd dists
+apt-ftparchive release . > Release
+gpg --default-key $KEY_NAME --clearsign -o InRelease Release
+cd ../..
 tar -c rhvoice/ > rhvoice.tar
