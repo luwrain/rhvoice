@@ -6,7 +6,11 @@ mkdir rhvoice
 cd rhvoice
 cp -r /src $VER
 cd $VER
-ls
 dpkg-buildpackage -us -uc
-cd ../..
+cd ..
+rm -rf $VER
+mkdir -p dists/rhvoice/main/binary-amd64
+mv *.deb dists/rhvoice/main/binary-amd64
+dpkg-scanpackages dists/rhvoice/main/binary-amd64 /dev/null > dists/rhvoice/main/binary-amd64/Packages
+cd ..
 tar -c rhvoice/ > rhvoice.tar
