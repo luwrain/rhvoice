@@ -16,8 +16,8 @@ rm -rf $VER
 mkdir -p dists/rhvoice/main/binary-amd64
 mv *.deb dists/rhvoice/main/binary-amd64
 dpkg-scanpackages dists/rhvoice/main/binary-amd64 /dev/null > dists/rhvoice/main/binary-amd64/Packages
-cd dists
+cd dists/rhvoice
 apt-ftparchive release . > Release
 gpg --default-key $KEY_NAME --clearsign -o InRelease Release
-cd ../..
+cd ../../..
 tar -c rhvoice/ > rhvoice.tar
