@@ -1,6 +1,5 @@
 
-
-FROM ubuntu:latest
+FROM ubuntu:20.04
 WORKDIR /deb
 
 RUN apt-get update

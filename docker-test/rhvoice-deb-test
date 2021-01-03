@@ -1,5 +1,7 @@
-#!/bin/bash -e
+#!/bin/bash -ev
 
 curl -s http://download.luwrain.org/repo/add-rhvoice-repo | bash
 apt-get update
 apt-get -y install rhvoice
+RHVoice-test --help
+echo proba | RHVoice-test -i - -o - > test.wav

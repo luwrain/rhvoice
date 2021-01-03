@@ -2,5 +2,5 @@
 
 sudo docker rmi -f rhvtest || true
 sudo docker build -t rhvtest .
-#sudo docker run rhvoice > /tmp/rhvoice.tar
+sudo docker run rhvtest > /tmp/test.wav
 sudo docker rmi -f rhvtest
