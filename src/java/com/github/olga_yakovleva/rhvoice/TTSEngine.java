@@ -33,16 +33,13 @@ public final class TTSEngine
     private native void doSpeak(String text,SynthesisParameters params,TTSClient client) throws RHVoiceException;
     private native boolean doConfigure(String key,String value);
 
-    static void loadJniLib(ClassLoader classLoader, String libName)
+    static void loadJniLib(ClassLoader classLoader, String resName)
     {
-	    final String arch = System.getProperty("sun.arch.data.model");
-    final String os = System.getProperty("os.name");
 	try {
-	    final String resName = "com/github/olga_yakovleva/rhvoice/jni/" + os + "/" + arch + "/" + libName;
 	    final URL url = classLoader.getResource(resName);
 	    if (url == null)
 		throw new RuntimeException("No resource " + resName);
-	    final File tmpFile = File.createTempFile(".rhvoice.jni.", "." + libName + ".tmp");
+	    final File tmpFile = File.createTempFile(".rhvoice.jni.", ".tmp");
 	    final InputStream is = url.openStream();
 	    try {
 			    		java.nio.file.Files.copy(is, tmpFile.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
@@ -54,7 +51,8 @@ public final class TTSEngine
 	}
 	catch (Throwable e)
 	{
-	    throw new RuntimeException("Unable to load " + libName, e);
+	    e.printStackTrace();
+	    throw new RuntimeException("Unable to load " + resName, e);
 	}
     }
 
@@ -63,9 +61,33 @@ public final class TTSEngine
     {
 	if (jniLoaded)
 	    return;
-	loadJniLib(classLoader, "libRHVoice_core.so");
-	loadJniLib(classLoader, "libRHVoice_jni.so");
-	loadJniLib(classLoader, "libRHVoice.so");
+		    	    final String arch = System.getProperty("sun.arch.data.model");
+			    System.out.println("os.arch = " + System.getProperty("os.arch"));
+			    final String os;
+			    if (System.getProperty("os.arch").equals("arm"))
+				os = "arm"; else
+				os = System.getProperty("os.name");
+
+			        if (os.toUpperCase().equals("ARM"))
+    {
+	    final String resPrefix = "com/github/olga_yakovleva/rhvoice/jni/arm/" + arch + "/";
+	loadJniLib(classLoader, resPrefix + "libRHVoice_core.so");
+	loadJniLib(classLoader, resPrefix + "libRHVoice_jni.so");
+	loadJniLib(classLoader, resPrefix + "libRHVoice.so");
+    } else
+
+				    
+    if (os.toUpperCase().equals("LINUX"))
+    {
+	    final String resPrefix = "com/github/olga_yakovleva/rhvoice/jni/Linux/" + arch + "/";
+	loadJniLib(classLoader, resPrefix + "libRHVoice_core.so");
+	loadJniLib(classLoader, resPrefix + "libRHVoice_jni.so");
+	loadJniLib(classLoader, resPrefix + "libRHVoice.so");
+    } else
+    {
+		    final String resPrefix = "com/github/olga_yakovleva/rhvoice/jni/Windows/" + arch + "/";
+	loadJniLib(classLoader, resPrefix + "RHVoice_jni.dll");
+    }
         onClassInit();
 	jniLoaded = true;
     }
