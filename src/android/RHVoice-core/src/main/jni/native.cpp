@@ -85,7 +85,7 @@ namespace
   template<typename T>
   inline T* get_native_field(JNIEnv* env,jobject obj,jfieldID field_id)
   {
-    long lval=env->GetLongField(obj,field_id);
+    auto lval=env->GetLongField(obj,field_id);
     check(env);
     return reinterpret_cast<T*>(static_cast<intptr_t>(lval));
   }
